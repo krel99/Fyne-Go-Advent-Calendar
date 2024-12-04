@@ -30,16 +30,17 @@ func main() {
 
 	// Set window size
 
-	// Show the window
+	// show window, before rendering starts
 	window.Show()
 
-	// Create and add rectangles one by one with a delay
 	go func() {
-
 		for i := 0; i < 24; i++ {
+			slotContainer := container.NewWithoutLayout()
 			rect := canvas.NewRectangle(color.White)
-			rectangles = append(rectangles, rect)
-			canvasGrid.Add(rect)
+			rect.Resize(fyne.NewSize(125, 125))
+			slotContainer.Add(rect)
+			rectangles = append(rectangles, slotContainer)
+			canvasGrid.Add(slotContainer)
 			time.Sleep(45 * time.Millisecond) // 200ms delay
 		}
 
@@ -58,6 +59,7 @@ func main() {
 			currentDay := len(buttons) + 1
 
 			butt.OnTapped = func() {
+				// check, jestli funkce s danym indexem existuje
 				if fn, exists := days.Registry[currentDay]; exists {
 					fn(rectangles)
 				}
