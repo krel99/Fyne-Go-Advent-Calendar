@@ -53,13 +53,6 @@ func Day01(rectangles []fyne.CanvasObject) {
 		x2 := centerX + float32(math.Sin(angleNext)*float64(nextRadius))
 		y2 := centerY - float32(math.Cos(angleNext)*float64(nextRadius))
 
-		// Create and add line
-		// line := canvas.NewLine(color.White)
-		// line.StrokeWidth = 2
-		// line.Position1 = fyne.NewPos(x1, y1)
-		// line.Position2 = fyne.NewPos(x2, y2)
-		// container.Add(line)
-
 		go daVincify(x1, y1, x2, y2, 200, container)
 	}
 
