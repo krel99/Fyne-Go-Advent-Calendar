@@ -2,6 +2,8 @@ package days
 
 import (
 	"image/color"
+	"math/rand"
+	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
@@ -71,8 +73,30 @@ func Day02(rectangles []fyne.CanvasObject) {
 
 	// ↪ shirt buttons
 	bodyTop := yC - unolegH
+
+	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
+	startColor := color.NRGBA{
+		R: uint8(rnd.Intn(256)),
+		G: uint8(rnd.Intn(256)),
+		B: uint8(rnd.Intn(256)),
+	}
+	endColor := color.NRGBA{
+		R: uint8(rnd.Intn(256)),
+		G: uint8(rnd.Intn(256)),
+		B: uint8(rnd.Intn(256)),
+	}
+
 	for i := 0; i < 4; i++ {
-		shirtButt := canvas.NewCircle(color.Black)
+		t := float32(i) / float32(3)
+
+		interpolatedColor := color.NRGBA{
+			R: uint8(float32(startColor.R) + t*float32(endColor.R-startColor.R)),
+			G: uint8(float32(startColor.G) + t*float32(endColor.G-startColor.G)),
+			B: uint8(float32(startColor.B) + t*float32(endColor.B-startColor.B)),
+			A: 255,
+		}
+
+		shirtButt := canvas.NewCircle(interpolatedColor)
 		shirtButt.Resize(fyne.NewSize(headW/8, headH/8))
 		buttonY := bodyTop + (bodyH * float32(i+1) / 4)
 		shirtButt.Move(fyne.NewPos(xC-headW/16, buttonY))
