@@ -7,4 +7,5 @@ type DayFunction func(rectangles []fyne.CanvasObject)
 var Registry = map[int]DayFunction{
 	1: Day01,
 	2: Day02,
+	3: Day03,
 }
