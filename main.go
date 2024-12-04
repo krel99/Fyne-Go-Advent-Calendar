@@ -40,7 +40,7 @@ func main() {
 			rect := canvas.NewRectangle(color.White)
 			rectangles = append(rectangles, rect)
 			canvasGrid.Add(rect)
-			time.Sleep(45 * time.Millisecond) // 200ms delay between each rectangle
+			time.Sleep(45 * time.Millisecond) // 200ms delay
 		}
 
 		column := 0
@@ -49,24 +49,20 @@ func main() {
 		for row = 0; row < 4 && len(buttons) < 24; column++ {
 			butt := widget.NewButton("Reveal", nil)
 
-			// Calculate position based on grid-like positioning
 			x := column*125 + column*4 // 6 buttons per row, 125px width
-			y := row*125 + row*4       // 125px height
+			y := row*125 + row*4
 
 			butt.Resize(fyne.NewSize(125, 125))
 			butt.Move(fyne.NewPos(float32(x), float32(y)))
 
-			if len(buttons) == 0 {
-				butt.OnTapped = func() {
-					days.Registry[1](rectangles) // Call first day function
-					butt.Hide()
-					butt.Disable()
+			currentDay := len(buttons) + 1
+
+			butt.OnTapped = func() {
+				if fn, exists := days.Registry[currentDay]; exists {
+					fn(rectangles)
 				}
-			} else {
-				butt.OnTapped = func() {
-					butt.Hide()
-					butt.Disable()
-				}
+				butt.Hide()
+				butt.Disable()
 			}
 
 			buttons = append(buttons, butt)
